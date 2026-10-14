@@ -6,6 +6,9 @@ struct ContentView: View {
     @State private var mediaURL = ""
     @State private var mediaTitle = ""
     @State private var showingURLPlayer = false
+    @State private var results: [SearchTrack] = []
+    @State private var searching = false
+    @State private var searchError: String?
 
     var body: some View {
         TabView {
@@ -14,8 +17,37 @@ struct ContentView: View {
                     Section("検索") {
                         TextField("曲名・アーティスト", text: $query)
                             .textInputAutocapitalization(.never)
-                        Button("検索") { }
+                        Button {
+                            searching = true
+                            searchError = nil
+                            Task {
+                                do {
+                                    results = try await YouTubeMusicSearch().search(query)
+                                } catch {
+                                    searchError = error.localizedDescription
+                                }
+                                searching = false
+                            }
+                        } label: {
+                            if searching { ProgressView() } else { Text("検索") }
+                        }
                             .disabled(query.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
+                    }
+                    if let searchError {
+                        Section { Text(searchError).foregroundStyle(.red) }
+                    }
+                    Section("検索結果") {
+                        ForEach(results) { track in
+                            Button {
+                                mediaTitle = track.title
+                                showingURLPlayer = true
+                            } label: {
+                                VStack(alignment: .leading, spacing: 4) {
+                                    Text(track.title).font(.headline).foregroundStyle(.primary)
+                                    Text(track.artist).font(.subheadline).foregroundStyle(.secondary)
+                                }
+                            }
+                        }
                     }
                     Section("再生") {
                         HStack {

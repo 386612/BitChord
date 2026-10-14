@@ -10,6 +10,7 @@
 		A10000000000000000000001 /* BitChordIOSApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000001 /* BitChordIOSApp.swift */; };
 		A10000000000000000000002 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000002 /* ContentView.swift */; };
 		A10000000000000000000003 /* AudioPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000003 /* AudioPlayer.swift */; };
+		A10000000000000000000004 /* YouTubeMusicSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000004 /* YouTubeMusicSearch.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -17,6 +18,7 @@
 		A20000000000000000000001 /* BitChordIOSApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BitChordIOSApp.swift; sourceTree = "<group>"; };
 		A20000000000000000000002 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		A20000000000000000000003 /* AudioPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioPlayer.swift; sourceTree = "<group>"; };
+		A20000000000000000000004 /* YouTubeMusicSearch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YouTubeMusicSearch.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -25,7 +27,7 @@
 
 /* Begin PBXGroup section */
 		A40000000000000000000000 = {isa = PBXGroup; children = (A40000000000000000000001 /* BitChordIOS */, A40000000000000000000002 /* Products */); sourceTree = "<group>"; };
-		A40000000000000000000001 /* BitChordIOS */ = {isa = PBXGroup; children = (A20000000000000000000001 /* BitChordIOSApp.swift */, A20000000000000000000002 /* ContentView.swift */, A20000000000000000000003 /* AudioPlayer.swift */); path = .; sourceTree = "<group>"; };
+		A40000000000000000000001 /* BitChordIOS */ = {isa = PBXGroup; children = (A20000000000000000000001 /* BitChordIOSApp.swift */, A20000000000000000000002 /* ContentView.swift */, A20000000000000000000003 /* AudioPlayer.swift */, A20000000000000000000004 /* YouTubeMusicSearch.swift */); path = .; sourceTree = "<group>"; };
 		A40000000000000000000002 /* Products */ = {isa = PBXGroup; children = (A20000000000000000000000 /* BitChordIOS.app */); name = Products; sourceTree = "<group>"; };
 /* End PBXGroup section */
 
@@ -42,7 +44,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		A30000000000000000000002 /* Sources */ = {isa = PBXSourcesBuildPhase; buildActionMask = 2147483647; files = (A10000000000000000000001 /* BitChordIOSApp.swift in Sources */, A10000000000000000000002 /* ContentView.swift in Sources */, A10000000000000000000003 /* AudioPlayer.swift in Sources */); runOnlyForDeploymentPostprocessing = 0; };
+		A30000000000000000000002 /* Sources */ = {isa = PBXSourcesBuildPhase; buildActionMask = 2147483647; files = (A10000000000000000000001 /* BitChordIOSApp.swift in Sources */, A10000000000000000000002 /* ContentView.swift in Sources */, A10000000000000000000003 /* AudioPlayer.swift in Sources */, A10000000000000000000004 /* YouTubeMusicSearch.swift in Sources */); runOnlyForDeploymentPostprocessing = 0; };
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
