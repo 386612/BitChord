@@ -44,6 +44,13 @@ kotlin {
         }
     }
 
+    // The current UI sources are still hosted in jvmSharedMain. Registering the
+    // Apple targets now gives the module a stable place for the forthcoming
+    // commonMain/iOS UI split instead of coupling the Xcode host to Android code.
+    iosX64()
+    iosArm64()
+    iosSimulatorArm64()
+
     jvm {
         compilerOptions {
             jvmTarget.set(JvmTarget.JVM_17)
@@ -81,6 +88,7 @@ kotlin {
             implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.9.0")
             implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.7.3")
         }
+        val iosMain by getting
         // Compiled against what the desktop actually resolves, not the phone's
         // pin — see the CMP_DESKTOP comment at the top of this file. Skia's
         // Matrix33 changed shape between skiko 0.9 and 0.15, and bytecode built

@@ -13,6 +13,13 @@ kotlin {
         }
     }
 
+    // The iOS target starts with the platform-neutral data/model layer. Android's
+    // Media3, JNI, InnerTubeX and NewPipe implementations remain in jvmSharedMain
+    // until their AVFoundation equivalents are introduced in a later phase.
+    iosX64()
+    iosArm64()
+    iosSimulatorArm64()
+
     jvm {
         compilerOptions {
             jvmTarget.set(JvmTarget.JVM_17)
@@ -53,6 +60,11 @@ kotlin {
         commonMain.dependencies {
             // Models in this module intentionally have no Android or Compose dependency.
             implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.7.3")
+        }
+        val iosMain by getting {
+            dependencies {
+                api("io.ktor:ktor-client-darwin:3.5.2")
+            }
         }
         commonTest.dependencies {
             implementation(kotlin("test"))
