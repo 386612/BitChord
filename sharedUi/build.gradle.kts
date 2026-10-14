@@ -47,9 +47,12 @@ kotlin {
     // The current UI sources are still hosted in jvmSharedMain. Registering the
     // Apple targets now gives the module a stable place for the forthcoming
     // commonMain/iOS UI split instead of coupling the Xcode host to Android code.
-    iosX64()
-    iosArm64()
-    iosSimulatorArm64()
+    listOf(iosX64(), iosArm64(), iosSimulatorArm64()).forEach { target ->
+        target.binaries.framework {
+            baseName = "BitChordSharedUi"
+            isStatic = true
+        }
+    }
 
     jvm {
         compilerOptions {

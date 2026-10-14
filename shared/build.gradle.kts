@@ -16,9 +16,12 @@ kotlin {
     // The iOS target starts with the platform-neutral data/model layer. Android's
     // Media3, JNI, InnerTubeX and NewPipe implementations remain in jvmSharedMain
     // until their AVFoundation equivalents are introduced in a later phase.
-    iosX64()
-    iosArm64()
-    iosSimulatorArm64()
+    listOf(iosX64(), iosArm64(), iosSimulatorArm64()).forEach { target ->
+        target.binaries.framework {
+            baseName = "BitChordShared"
+            isStatic = true
+        }
+    }
 
     jvm {
         compilerOptions {
