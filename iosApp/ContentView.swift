@@ -1,23 +1,75 @@
 import SwiftUI
 
 struct ContentView: View {
+    @StateObject private var player = AudioPlayer.shared
+    @State private var query = ""
+    @State private var mediaURL = ""
+    @State private var mediaTitle = ""
+    @State private var showingURLPlayer = false
+
     var body: some View {
-        NavigationStack {
-            VStack(spacing: 20) {
-                Image(systemName: "waveform")
-                    .font(.system(size: 64))
-                    .foregroundStyle(.tint)
-                Text("BitChord")
-                    .font(.largeTitle.bold())
-                Text("iOS host is ready")
-                    .foregroundStyle(.secondary)
-                Text("The shared KMP data layer is being connected to the native iOS playback and UI services.")
-                    .multilineTextAlignment(.center)
-                    .foregroundStyle(.secondary)
-                    .padding(.horizontal)
+        TabView {
+            NavigationStack {
+                List {
+                    Section("検索") {
+                        TextField("曲名・アーティスト", text: $query)
+                            .textInputAutocapitalization(.never)
+                        Button("検索") { }
+                            .disabled(query.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
+                    }
+                    Section("再生") {
+                        HStack {
+                            VStack(alignment: .leading) {
+                                Text(player.title).font(.headline)
+                                Text(player.artist).font(.subheadline).foregroundStyle(.secondary)
+                            }
+                            Spacer()
+                            Button { player.toggle() } label: {
+                                Image(systemName: player.isPlaying ? "pause.fill" : "play.fill")
+                            }
+                            .buttonStyle(.borderedProminent)
+                        }
+                        Button("音声URLを再生") { showingURLPlayer = true }
+                    }
+                }
+                .navigationTitle("BitChord")
             }
-            .navigationTitle("BitChord")
-            .padding()
+            .tabItem { Label("検索", systemImage: "magnifyingglass") }
+
+            NavigationStack {
+                VStack(spacing: 16) {
+                    Image(systemName: "music.note.list").font(.system(size: 58)).foregroundStyle(.tint)
+                    Text("ライブラリ").font(.title2.bold())
+                    Text("iOSのオフライン保存とライブラリ連携を実装中です")
+                        .foregroundStyle(.secondary).multilineTextAlignment(.center)
+                }
+                .padding().navigationTitle("ライブラリ")
+            }
+            .tabItem { Label("ライブラリ", systemImage: "books.vertical") }
+        }
+        .sheet(isPresented: $showingURLPlayer) {
+            NavigationStack {
+                Form {
+                    TextField("https://…", text: $mediaURL).textInputAutocapitalization(.never).keyboardType(.URL)
+                    TextField("タイトル", text: $mediaTitle)
+                    Button("再生") {
+                        guard let url = URL(string: mediaURL), url.scheme == "https" || url.scheme == "http" else { return }
+                        player.play(url: url, title: mediaTitle.isEmpty ? "音声" : mediaTitle)
+                        showingURLPlayer = false
+                    }
+                }
+                .navigationTitle("音声URL")
+                .toolbar { Button("閉じる") { showingURLPlayer = false } }
+            }
+            .presentationDetents([.medium])
+        }
+        .alert("再生エラー", isPresented: Binding(
+            get: { player.errorMessage != nil },
+            set: { if !$0 { player.errorMessage = nil } }
+        )) {
+            Button("閉じる", role: .cancel) { player.errorMessage = nil }
+        } message: {
+            Text(player.errorMessage ?? "不明なエラー")
         }
     }
 }
