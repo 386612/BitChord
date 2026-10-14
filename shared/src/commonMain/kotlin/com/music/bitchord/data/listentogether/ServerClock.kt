@@ -1,5 +1,6 @@
 package com.music.bitchord.data.listentogether
 
+import com.music.bitchord.platform.monotonicNowMs
 
 /**
  * This device's offset from the party server's clock.
@@ -40,25 +41,22 @@ class ServerClock(
      * has `System.nanoTime`. Both are monotonic, which is the whole requirement — see the note on
      * the wall clock above.
      */
-    private val localNowMs: () -> Long = { System.nanoTime() / 1_000_000L },
+    private val localNowMs: () -> Long = ::monotonicNowMs,
 ) {
 
     private data class Sample(val offsetMs: Long, val roundTripMs: Long, val takenAtMs: Long)
 
     private val samples = ArrayDeque<Sample>()
 
-    @Volatile
     var offsetMs: Long? = null
         private set
 
-    @Volatile
     var roundTripMs: Long = 0
         private set
 
     /** True once at least one round trip has completed. */
     val synced: Boolean get() = offsetMs != null
 
-    @Synchronized
     fun record(sentAtLocalMs: Long, serverMs: Long, receivedAtLocalMs: Long) {
         val roundTrip = (receivedAtLocalMs - sentAtLocalMs).coerceAtLeast(0)
         val midpoint = sentAtLocalMs + roundTrip / 2
@@ -78,7 +76,6 @@ class ServerClock(
     /** The server's clock, read from here. Null until the first pong lands. */
     fun serverNowMs(): Long? = offsetMs?.let { localNowMs() + it }
 
-    @Synchronized
     fun reset() {
         samples.clear()
         offsetMs = null
